@@ -1,12 +1,10 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
-from torchsummary import summary
-
-# YOUR CODE HERE
+# from torchsummary import summary
 
 class Classify(nn.Module):
-    def __init__(self, input):
+    def __init__(self):
         super(Classify, self).__init__()
         self.input_layer = nn.Linear(input, 400)  
         self.hidden1 = nn.Linear(400, 200) 
