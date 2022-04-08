@@ -13,7 +13,7 @@ class Classify(nn.Module):
         self.hidden2 = nn.Linear(200, 100) 
         self.hidden3 = nn.Linear(100, 75)
         self.hidden4 = nn.Linear(75, 50)
-        self.output = nn.Linear(50, 10 ) 
+        self.output = nn.Linear(50, 10) 
         
     
     def forward(self, x):
