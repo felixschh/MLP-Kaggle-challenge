@@ -14,13 +14,15 @@ from model import Classify
 
 
 trainset, testset, trainloader, testloader = dh.get_data()
+
 model = Classify(784)
 
 criterion =  nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001)
 
-epochs = 50
+epochs = 10
 train = []
+print_every = 40
 starting_time = time.time()
 
 for epoch in range(epochs):
@@ -30,22 +32,33 @@ for epoch in range(epochs):
     print(f'Epoch: {epoch+1}/{epochs}')
     
     for i, (images, labels) in enumerate(iter(trainloader)):
+
         images.resize_(images.size()[0], 784)
+
         optimizer.zero_grad()
 
-        prediction = model.forward(images)
-        loss = criterion(prediction, labels)
-        loss.backward()
-        optimizer.step()
-    
-    train.append((running_loss/64))
+        logits = model.forward(images)
 
-train_time = time.time() - starting_time
-print(f'Time: {train_time}')
+        prediction = F.log_softmax(logits, dim=1)#model.forward(images)
+
+        loss = criterion(prediction, labels)
+
+        loss.backward()
+
+        optimizer.step()
+
+        running_loss += loss.item()  
+    
+
+        if i%print_every ==0:
+                print(f"\tIteration: {i}\t Loss: {running_loss/print_every:.4f}")
+                running_loss=0
+
+    train.append((running_loss/64))
+# train_time = time.time() - starting_time
+# print(f'Time: {train_time}')
 
 plt.plot(train, label = 'Trainloss')
 plt.legend()
 plt.show()
-
-
 
