@@ -10,10 +10,10 @@ class Classify(nn.Module):
         super(Classify, self).__init__()
         self.input_layer = nn.Linear(input, 400)  
         self.hidden1 = nn.Linear(400, 200) 
-        self.hidden2 = nn.Linear(200, 150) 
-        self.hidden3 = nn.Linear(150, 100)
-        self.hidden4 = nn.Linear(100, 75)
-        self.output = nn.Linear(75, ) 
+        self.hidden2 = nn.Linear(200, 100) 
+        self.hidden3 = nn.Linear(100, 75)
+        self.hidden4 = nn.Linear(75, 50)
+        self.output = nn.Linear(50, 10 ) 
         
     
     def forward(self, x):
