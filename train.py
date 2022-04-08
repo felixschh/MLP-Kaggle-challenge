@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from torchvision import datasets, transforms
 
 
-
+trainset, testset, trainloader, testloader = get_data()
 model = Classify()
 
 criterion =  nn.CrossEntropyLoss()
