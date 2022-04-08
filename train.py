@@ -20,7 +20,7 @@ model = Classify(784)
 criterion =  nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001)
 
-epochs = 50
+epochs = 100
 train = []
 print_every = 40
 starting_time = time.time()
@@ -31,7 +31,7 @@ for epoch in range(epochs):
 
     print(f'Epoch: {epoch+1}/{epochs}')
     
-    for i, (images, labels) in enumerate(iter(trainloader)):
+    for i, (images, labels) in enumerate(iter(testloader)):
 
         images.resize_(images.size()[0], 784)
 
@@ -58,7 +58,8 @@ for epoch in range(epochs):
 # train_time = time.time() - starting_time
 # print(f'Time: {train_time}')
 
-plt.plot(train, label = 'Trainloss')
+plt.plot(train, label = 'Testloss')
+plt.plot()
 plt.legend()
 plt.show()
 
