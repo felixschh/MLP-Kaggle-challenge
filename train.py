@@ -20,7 +20,7 @@ model = Classify(784)
 criterion =  nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001)
 
-epochs = 10
+epochs = 50
 train = []
 print_every = 40
 starting_time = time.time()
