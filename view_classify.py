@@ -3,7 +3,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import data_handler as dh
-from train import Classify
+from model import Classify
+import torch.nn.functional as F
+
 
 trainset, testset, trainloader, testloader = dh.get_data()
 model = Classify(784)
@@ -36,6 +38,8 @@ def view_classify(img, ps, version="MNIST"):
     ax2.set_title('Class Probability')
     ax2.set_xlim(0, 1.1)
 
+    plt.show()
+
 
 
 
@@ -43,9 +47,14 @@ def view_classify(img, ps, version="MNIST"):
 dataiter = iter(testloader)
 images, labels = dataiter.next()
 img = images[1]
+img = img.resize_(img.size()[0], 784)
+print(img.shape)
 
-ps = model(img) # ps stands for probabilities: your model should return values between 0 and 1
+logits = model(img) # ps stands for probabilities: your model should return values between 0 and 1
 # that sums to 1. A softmax does this job!
+
+ps = F.softmax(logits, dim=1)
 
 # Plot the image and probabilities
 view_classify(img, ps, version='Fashion')
+
