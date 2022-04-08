@@ -29,9 +29,12 @@ for epoch in range(epochs):
     running_loss = 0
     running_loss_test = 0
 
+    if epoch%10 == 0:
+        torch.save(model.state_dict(), f'checkpoint_{epoch}.pth')
+
     print(f'Epoch: {epoch+1}/{epochs}')
     
-    for i, (images, labels) in enumerate(iter(testloader)):
+    for i, (images, labels) in enumerate(iter(trainloader)):
 
         images.resize_(images.size()[0], 784)
 
@@ -48,7 +51,7 @@ for epoch in range(epochs):
         optimizer.step()
 
         running_loss += loss.item()  
-    
+
 
         if i%print_every ==0:
                 print(f"\tIteration: {i}\t Loss: {running_loss/print_every:.4f}")
@@ -57,6 +60,8 @@ for epoch in range(epochs):
     train.append((running_loss/64))
 # train_time = time.time() - starting_time
 # print(f'Time: {train_time}')
+
+torch.save(model.state_dict(), 'checkpoint.pth')
 
 plt.plot(train, label = 'Testloss')
 plt.plot()
