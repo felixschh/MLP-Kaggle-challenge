@@ -1,7 +1,7 @@
 from operator import index
 import pandas as pd
 import numpy as np
-from regex import R
+#from regex import R
 import torch
 from sklearn.model_selection import train_test_split
 from torchvision import datasets, transforms
