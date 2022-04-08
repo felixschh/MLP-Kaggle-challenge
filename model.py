@@ -4,7 +4,7 @@ from torch import nn
 # from torchsummary import summary
 
 class Classify(nn.Module):
-    def __init__(self):
+    def __init__(self, input):
         super(Classify, self).__init__()
         self.input_layer = nn.Linear(input, 400)  
         self.hidden1 = nn.Linear(400, 200) 
@@ -26,5 +26,5 @@ class Classify(nn.Module):
         third_layer = self.hidden4(act4)
         act5 = F.relu(third_layer)
         out_layer = self.output(act5)
-        x = F.softmax(out_layer)
+        x = F.softmax(out_layer, dim=1)
         return out_layer

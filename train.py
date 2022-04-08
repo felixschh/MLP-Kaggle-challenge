@@ -14,7 +14,7 @@ from model import Classify
 
 
 trainset, testset, trainloader, testloader = dh.get_data()
-model = Classify()
+model = Classify(784)
 
 criterion =  nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001)
