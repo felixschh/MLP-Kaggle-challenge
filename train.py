@@ -9,11 +9,11 @@ from torch import nn
 from torch import optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
-from data_handler import get_data
+import data_handler as dh
 from model import Classify
 
 
-trainset, testset, trainloader, testloader = get_data()
+trainset, testset, trainloader, testloader = dh.get_data()
 model = Classify()
 
 criterion =  nn.CrossEntropyLoss()
