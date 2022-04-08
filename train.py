@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import torch
-from torch import nn
+from torch import nn, no_grad
 from torch import optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
@@ -20,18 +20,19 @@ model = Classify(784)
 criterion =  nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.001)
 
-epochs = 100
+epochs = 30
 train = []
+test = []
 print_every = 40
 starting_time = time.time()
 
 for epoch in range(epochs):
-    running_loss = 0
+    running_loss_train = 0
     running_loss_test = 0
 
     print(f'Epoch: {epoch+1}/{epochs}')
     
-    for i, (images, labels) in enumerate(iter(testloader)):
+    for i, (images, labels) in enumerate(iter(trainloader)):
 
         images.resize_(images.size()[0], 784)
 
@@ -39,26 +40,51 @@ for epoch in range(epochs):
 
         logits = model.forward(images)
 
-        prediction = F.log_softmax(logits, dim=1)#model.forward(images)
+        #prediction = F.log_softmax(logits, dim=1)#model.forward(images)
 
-        loss = criterion(prediction, labels)
+        train_loss = criterion(logits, labels)
 
-        loss.backward()
+        train_loss.backward()
 
         optimizer.step()
 
-        running_loss += loss.item()  
+          
     
+
+        
+
+        model.eval()
+        with torch.no_grad():
+            for i, (images, labels) in enumerate(iter(testloader)):
+                images.resize_(images.size()[0], 784)
+
+        optimizer.zero_grad()
+
+        logits = model.forward(images)
+
+        test_loss = criterion(logits, labels)
+
+        test_loss.backward()
+
+        optimizer.step()
+
+        model.train()
+
+        running_loss_train += train_loss.item()
+        running_loss_test += test_loss.item() 
 
         if i%print_every ==0:
                 print(f"\tIteration: {i}\t Loss: {running_loss/print_every:.4f}")
                 running_loss=0
 
-    train.append((running_loss/64))
+    train.append((running_loss_train/len(trainloader)))
+    test.append((running_loss_test/len(testloader)))
+
 # train_time = time.time() - starting_time
 # print(f'Time: {train_time}')
 
-plt.plot(train, label = 'Testloss')
+plt.plot(train, label = 'Trainloss')
+plt.plot(test, label = 'Testloss')
 plt.plot()
 plt.legend()
 plt.show()
