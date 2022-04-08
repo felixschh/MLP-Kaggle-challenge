@@ -69,8 +69,8 @@ for epoch in range(epochs):
 
                 model.train()
 
+                running_loss_test += test_loss.item() 
         running_loss_train += train_loss.item()
-        running_loss_test += test_loss.item() 
 
         if i%print_every ==0:
                 print(f"\tIteration: {i}\t Loss: {running_loss/print_every:.4f}")
