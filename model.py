@@ -5,9 +5,9 @@ from torchsummary import summary
 
 # YOUR CODE HERE
 
-class Regression(nn.Module):
+class Classify(nn.Module):
     def __init__(self, input):
-        super(Regression, self).__init__()
+        super(Classify, self).__init__()
         self.input_layer = nn.Linear(input, 400)  
         self.hidden1 = nn.Linear(400, 200) 
         self.hidden2 = nn.Linear(200, 150) 
